@@ -8,7 +8,21 @@ use Illuminate\Database\Eloquent\Model;
 class Thread extends Model {
     use HasFactory;
 
+    protected $guarded = [];
+
     public function path(){
         return route('threads.show', ['thread' => $this->id]);
+    }
+
+    public function replies(){
+        return $this->hasMany(Reply::class);
+    }
+
+    public function creator(){
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function addReplay($reply){
+        return $this->replies()->create($reply);
     }
 }

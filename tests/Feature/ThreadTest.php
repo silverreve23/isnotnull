@@ -6,22 +6,34 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 use App\Models\Thread;
+use App\Models\Reply;
 
 class ThreadTest extends TestCase {
     use DatabaseMigrations, RefreshDatabase;
 
-    public function test_a_user_can_browse_all_thrads(){
-        $thread = Thread::factory()->create();
-        $response = $this->get('/threads');
+    public function setUp(): void {
+        parent::setUp();
 
-        $response->assertSee($thread->title);
+        $this->thread = Thread::factory()->create();
     }
 
-    public function test_a_user_can_browse_one_thrad(){
-        $thread = Thread::factory()->create();
+    public function test_a_user_can_browse_all_threads(){
+        $response = $this
+            ->get('/threads')
+            ->assertSee($this->thread->title);
+    }
 
-        $response = $this->get('/threads/'.$thread->id);
+    public function test_a_user_can_browse_one_thread(){
+        $response = $this
+            ->get($this->thread->path())
+            ->assertSee($this->thread->title);
+    }
 
-        $response->assertSee($thread->title);
+    public function test_a_user_can_read_replies_that_are_associated_with_a_thread(){
+        $reply = Reply::factory()->create(['thread_id' => $this->thread->id]);
+
+        $response = $this
+            ->get($this->thread->path())
+            ->assertSee($reply->body);
     }
 }

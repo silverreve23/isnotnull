@@ -34,9 +34,6 @@
 
             <div id="navbarExampleTransparentExample" class="navbar-menu">
                 <div class="navbar-start">
-                    <a class="navbar-item" href="/">
-                        Home
-                    </a>
                     <a class="navbar-item" href="{{ route('threads.index') }}">
                         Threads
                     </a>
@@ -59,8 +56,6 @@
         </section>
         <section class="section">
             <div class="container">
-                <h2 class="title">{{ $header }}</h2>
-
                 {{ $slot }}
 
                 @stack('modals')
