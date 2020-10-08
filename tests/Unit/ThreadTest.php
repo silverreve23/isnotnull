@@ -9,6 +9,7 @@ use Tests\TestCase;
 use App\Models\Reply;
 use App\Models\Thread;
 use App\Models\User;
+use App\Models\Channel;
 
 class ThreadTest extends TestCase {
     use DatabaseMigrations, RefreshDatabase;
@@ -35,5 +36,15 @@ class ThreadTest extends TestCase {
         ));
 
         $this->assertCount(1, $this->thread->replies);
+    }
+
+    public function test_a_thread_belongs_to_a_chanel(){
+        $this->assertInstanceOf(Channel::class, $this->thread->channel);
+    }
+
+    public function test_a_thread_can_make_a_string_path(){
+        $path = "/threads/{$this->thread->channel->slug}/{$this->thread->id}";
+
+        $this->assertEquals($path, $this->thread->path());
     }
 }

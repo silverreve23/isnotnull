@@ -1,10 +1,16 @@
 <x-app-layout>
     <section class="section">
         <div class="container">
-          <h1 class="title">{{ $thread->title }}</h1>
-          <h2 class="subtitle">
-            {{ $thread->body }}
-          </h2>
+          <p class="title">{{ $thread->title }}</p>
+          <p class="subtitle">
+              <sometag>@</sometag>{{ $thread->creator->name }}
+              <span>|</span>
+              <a href="{{ route('threads.index', ['channel' => $thread->channel->slug]) }}">
+                  {{ $thread->channel->name }}
+              </a>
+              <small>{{ $thread->created_at->diffForHumans() }}</small>
+              <p>{{ $thread->body }}</p>
+          </p>
         </div>
     </section>
     <section class="section">
@@ -12,12 +18,12 @@
             @include('threads.reply')
         @endforeach
         @if(auth()->check())
-            <form action="{{ route('replies.store', ['thread' => $thread->id]) }}" method="post">
+            <form action="{{ route('replies.store', ['channel' => $thread->channel->slug, 'thread' => $thread->id]) }}" method="post">
                 {{ csrf_field() }}
                 <article class="media">
                         <figure class="media-left">
                             <p class="image is-64x64">
-                                <img src="https://bulma.io/images/placeholders/128x128.png">
+                                <img src="https://picsum.photos/48/48">
                             </p>
                         </figure>
                         <div class="media-content">

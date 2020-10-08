@@ -20,10 +20,10 @@
         <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.7.0/dist/alpine.js" defer></script>
     </head>
     <body>
-        <nav class="navbar is-dark">
+        <nav class="navbar is-white">
             <div class="navbar-brand">
-                <a class="navbar-item" href="https://bulma.io">
-                    <img src="https://cdn0.iconfinder.com/data/icons/simpline-mix/64/simpline_47-512.png" alt="Bulma: a modern CSS framework based on Flexbox" width="112" height="28">
+                <a class="navbar-item" href="/">
+                    <img src="/logo.svg" alt="IS NOT NULL">
                 </a>
                 <div class="navbar-burger burger" data-target="navbarExampleTransparentExample">
                     <span></span>
@@ -34,9 +34,62 @@
 
             <div id="navbarExampleTransparentExample" class="navbar-menu">
                 <div class="navbar-start">
-                    <a class="navbar-item" href="{{ route('threads.index') }}">
-                        Threads
-                    </a>
+                    <div class="navbar-item">
+                        <div class="dropdown is-hoverable">
+                          <div class="dropdown-trigger">
+                            <div aria-haspopup="true" aria-controls="dropdown-menu-browse">
+                                  <span>Browse</span>
+                                  <span class="icon is-small">
+                                    <i class="fas fa-angle-down" aria-hidden="true"></i>
+                                  </span>
+                            </div>
+                          </div>
+                          <div class="dropdown-menu" id="dropdown-menu-browse" role="menu">
+                            <div class="dropdown-content">
+                              <div class="dropdown-item">
+                                <a class="link-menu" href="{{ route('threads.index', ['channel' => false]) }}">
+                                    All threads
+                                </a>
+                                @if(auth()->check())
+                                    <a class="link-menu" href="{{ route('threads.index', ['channel' => false, 'by' => auth()->user()->name]) }}">
+                                        My threads
+                                    </a>
+                                @endif
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+                    <div class="navbar-item">
+                        <div class="dropdown is-hoverable">
+                          <div class="dropdown-trigger">
+                            <div aria-haspopup="true" aria-controls="dropdown-menu">
+                                  <span>Channels</span>
+                                  <span class="icon is-small">
+                                    <i class="fas fa-angle-down" aria-hidden="true"></i>
+                                  </span>
+                            </div>
+                          </div>
+                          <div class="dropdown-menu" id="dropdown-menu" role="menu">
+                            <div class="dropdown-content">
+                              <div class="dropdown-item">
+                                  @foreach($channels as $channel)
+                                    <a class="link-menu" href="{{ route('threads.index', ['channel' => $channel->slug]) }}">
+                                        {{ $channel->name }}
+                                    </a>
+                                  @endforeach
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+                    <div class="navbar-item">
+                        <div>
+                            <a href="{{ route('threads.create') }}">
+                                Create Thread
+                            </a>
+                        </div>
+                    </div>
                 </div>
                 <div class="navbar-end">
                     <div class="navbar-item">
@@ -51,7 +104,7 @@
         </nav>
         <section class="hero">
             <figure class="image">
-                <img src="https://www.guntawang.com.au/wp-content/uploads/2012/11/guntawang-tree-1000x200.jpg">
+                <img src="/header.jpeg">
             </figure>
         </section>
         <section class="section">

@@ -13,5 +13,9 @@ Route::get('/', function(){
     return view('welcome');
 });
 
-Route::resource('/threads', ThreadController::class)->names('threads');
-Route::post('/threads/{thread}/replies', [ReplyController::class, 'store'])->name('replies.store');
+Route::get('/threads', [ThreadController::class, 'index'])->name('threads.index');
+Route::post('/threads', [ThreadController::class, 'store'])->name('threads.store');
+Route::get('/threads/create', [ThreadController::class, 'create'])->name('threads.create');
+Route::get('/threads/{channel}', [ThreadController::class, 'index'])->name('threads.index');
+Route::get('/threads/{channel}/{thread}', [ThreadController::class, 'show'])->name('threads.show');
+Route::post('/threads/{channel}/{thread}/replies', [ReplyController::class, 'store'])->name('replies.store');

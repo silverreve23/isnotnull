@@ -21,6 +21,7 @@ class ParticipateInForumTest extends TestCase {
     }
 
     public function test_an_unauthenticated_user_may_not_add_reply_in_forum_threads(){
+        $this->withoutExceptionHandling();
         $this->expectException(AuthenticationException::class);
 
         $this->post($this->thread->path().'/replies', []);
@@ -34,5 +35,14 @@ class ParticipateInForumTest extends TestCase {
         $this->post($this->thread->path().'/replies', $reply->toArray());
 
         $this->get($this->thread->path())->assertSee($reply->body);
+    }
+
+    public function test_a_reply_requires_a_body(){
+        $this->be($this->user);
+
+        $reply = Reply::factory()->make(['body' => null]);
+
+        $this->post($this->thread->path().'/replies', $reply->toArray())
+            ->assertSessionHasErrors('body');
     }
 }

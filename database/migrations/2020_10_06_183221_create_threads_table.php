@@ -8,7 +8,8 @@ class CreateThreadsTable extends Migration {
     public function up(){
         Schema::create('threads', function(Blueprint $table){
             $table->id();
-            $table->integer('user_id');
+            $table->unsignedInteger('user_id');
+            $table->unsignedInteger('channel_id');
             $table->string('title');
             $table->text('body');
             $table->timestamps();

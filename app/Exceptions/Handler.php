@@ -20,10 +20,4 @@ class Handler extends ExceptionHandler {
     public function register(){
         //
     }
-
-    public function render($request, Throwable $exception){
-        if(app()->environment() == self::ENV_TEST) throw $exception;
-
-        return parent::render($request, $exception);
-    }
 }
