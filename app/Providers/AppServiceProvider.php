@@ -3,30 +3,21 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Cache;
 use App\Models\Channel;
 use View;
 
-class AppServiceProvider extends ServiceProvider
-{
-    /**
-     * Register any application services.
-     *
-     * @return void
-     */
-    public function register()
-    {
+class AppServiceProvider extends ServiceProvider {
+    public function register(){
         //
     }
 
-    /**
-     * Bootstrap any application services.
-     *
-     * @return void
-     */
-    public function boot()
-    {
+    public function boot(){
         View::composer('*', function($view){
-            $view->with('channels', Channel::all());
+            $channels = Cache::rememberForever('channels', function(){
+                return Channel::all();
+            });
+            $view->with('channels', $channels);
         });
     }
 }

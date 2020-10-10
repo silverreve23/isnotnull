@@ -52,14 +52,25 @@ class ReadThreadTest extends TestCase {
     }
 
     public function test_a_user_can_filter_threads_by_any_username(){
-        $this->be($this->user);
-
         $threadByUser = Thread::factory()->create(['user_id' => $this->user->id]);
         $threadByNotUser = Thread::factory()->create();
 
         $response = $this
-            ->get($threadByUser->path())
+            ->get('/threads?by='.$this->user->name)
             ->assertSee($threadByUser->title)
             ->assertDontSee($threadByNotUser->title);
+    }
+
+    public function test_a_user_can_filter_threads_by_popularity(){
+        $threadWithTwoReplies = Thread::factory()->create();
+        Reply::factory()->times(2)->create(['thread_id' => $threadWithTwoReplies->id]);
+
+        $threadWithThreeReplies = Thread::factory()->create();
+        Reply::factory()->times(3)->create(['thread_id' => $threadWithThreeReplies->id]);
+
+        $response = $this->getJson('/threads?popular=1')->json();
+
+        $this->assertArrayHasKey('data', $response);
+        $this->assertEquals([3, 2, 0], array_column($response['data'], 'replies_count'));
     }
 }

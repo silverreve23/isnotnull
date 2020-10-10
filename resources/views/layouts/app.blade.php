@@ -20,74 +20,47 @@
         <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.7.0/dist/alpine.js" defer></script>
     </head>
     <body>
-        <nav class="navbar is-white">
+        <nav class="navbar" role="navigation" aria-label="main navigation">
             <div class="navbar-brand">
                 <a class="navbar-item" href="/">
                     <img src="/logo.svg" alt="IS NOT NULL">
                 </a>
-                <div class="navbar-burger burger" data-target="navbarExampleTransparentExample">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </div>
+                <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                </a>
             </div>
 
-            <div id="navbarExampleTransparentExample" class="navbar-menu">
+            <div id="navbarBasicExample" class="navbar-menu">
                 <div class="navbar-start">
-                    <div class="navbar-item">
-                        <div class="dropdown is-hoverable">
-                          <div class="dropdown-trigger">
-                            <div aria-haspopup="true" aria-controls="dropdown-menu-browse">
-                                  <span>Browse</span>
-                                  <span class="icon is-small">
-                                    <i class="fas fa-angle-down" aria-hidden="true"></i>
-                                  </span>
-                            </div>
-                          </div>
-                          <div class="dropdown-menu" id="dropdown-menu-browse" role="menu">
-                            <div class="dropdown-content">
-                              <div class="dropdown-item">
-                                <a class="link-menu" href="{{ route('threads.index', ['channel' => false]) }}">
-                                    All threads
-                                </a>
-                                @if(auth()->check())
-                                    <a class="link-menu" href="{{ route('threads.index', ['channel' => false, 'by' => auth()->user()->name]) }}">
-                                        My threads
-                                    </a>
-                                @endif
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                    </div>
-                    <div class="navbar-item">
-                        <div class="dropdown is-hoverable">
-                          <div class="dropdown-trigger">
-                            <div aria-haspopup="true" aria-controls="dropdown-menu">
-                                  <span>Channels</span>
-                                  <span class="icon is-small">
-                                    <i class="fas fa-angle-down" aria-hidden="true"></i>
-                                  </span>
-                            </div>
-                          </div>
-                          <div class="dropdown-menu" id="dropdown-menu" role="menu">
-                            <div class="dropdown-content">
-                              <div class="dropdown-item">
-                                  @foreach($channels as $channel)
-                                    <a class="link-menu" href="{{ route('threads.index', ['channel' => $channel->slug]) }}">
-                                        {{ $channel->name }}
-                                    </a>
-                                  @endforeach
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                    </div>
-                    <div class="navbar-item">
-                        <div>
-                            <a href="{{ route('threads.create') }}">
-                                Create Thread
+                    <div class="navbar-item has-dropdown is-hoverable">
+                        <a class="navbar-link is-arrowless">Browse</a>
+                        <div class="navbar-dropdown">
+                            <a class="navbar-item" href="{{ route('threads.index', ['channel' => false]) }}">
+                                All threads
                             </a>
+                            @if(auth()->check())
+                                <a class="navbar-item" href="{{ route('threads.index', ['channel' => false, 'by' => auth()->user()->name]) }}">
+                                    My threads
+                                </a>
+                            @endif
+                            <a class="navbar-item" href="{{ route('threads.index', ['channel' => false, 'popular' => true]) }}">
+                                Popular threads
+                            </a>
+                            <hr class="navbar-divider">
+                            <a class="navbar-item">Report an issue</a>
+                        </div>
+                    </div>
+                    <a class="navbar-item" href="/">New thread</a>
+                    <div class="navbar-item has-dropdown is-hoverable">
+                        <a class="navbar-link is-arrowless">Channels</a>
+                        <div class="navbar-dropdown">
+                            @foreach($channels as $channel)
+                              <a class="navbar-item" href="{{ route('threads.index', ['channel' => $channel->slug]) }}">
+                                  {{ $channel->name }}
+                              </a>
+                            @endforeach
                         </div>
                     </div>
                 </div>
@@ -99,12 +72,32 @@
                             </div>
                         </div>
                     </div>
+                    <div class="navbar-item">
+                        <div class="buttons">
+                            <a href="/register" class="button is-primary">
+                                <strong>Sign up</strong>
+                            </a>
+                            @if(auth()->check())
+                                <form class="" action="/logout" method="post">
+                                    {{ csrf_field() }}
+                                    <div class="field">
+                                        <div class="control">
+                                            <button type="submit" class="button">Log out</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            @else
+                                <a href="/login" class="button is-light">Log in</a>
+                            @endif
+                        </div>
+                    </div>
                 </div>
             </div>
         </nav>
         <section class="hero">
             <figure class="image">
-                <img src="/header.jpeg">
+                {{-- <img src="/header.jpeg"> --}}
+                <img src="https://picsum.photos/1200/200" alt="is not null description">
             </figure>
         </section>
         <section class="section">

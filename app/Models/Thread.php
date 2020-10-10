@@ -10,6 +10,19 @@ class Thread extends Model {
     use HasFactory;
 
     protected $guarded = [];
+    protected $with = ['channel', 'creator'];
+
+    public static function boot(){
+        parent::boot();
+
+        static::addGlobalScope('countReplies', function($builder){
+            $builder->withCount('replies');
+        });
+
+        static::deleting(function($thread){
+            $thread->replies()->delete();
+        });
+    }
 
     public function path(){
         $params = ['thread' => $this->id, 'channel' => $this->channel->slug];
@@ -31,5 +44,9 @@ class Thread extends Model {
 
     public function addReplay($reply){
         return $this->replies()->create($reply);
+    }
+
+    public function scopeFilter($query, $filter){
+        return $filter->apply($query);
     }
 }
