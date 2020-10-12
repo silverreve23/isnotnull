@@ -14,6 +14,6 @@ class FavoriteController extends Controller {
     public function store(Reply $reply, Request $request){
         $reply->favorite();
 
-        return back();
+        return back()->with('flash', 'Reply has been favorited!');
     }
 }

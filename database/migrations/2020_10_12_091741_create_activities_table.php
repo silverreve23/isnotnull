@@ -4,19 +4,20 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateFavoritesTable extends Migration {
+class CreateActivitiesTable extends Migration {
     public function up(){
-        Schema::create('favorites', function(Blueprint $table){
+        Schema::create('activities', function(Blueprint $table){
             $table->id();
             $table->unsignedInteger('user_id');
-            $table->morphs('favorited');
+            $table->string('type', 50);
+            $table->morphs('subject');
             $table->timestamps();
 
-            $table->unique(['user_id', 'favorited_id', 'favorited_type']);
+            // $table->unique(['user_id', 'favorited_id', 'favorited_type']);
         });
     }
 
     public function down(){
-        Schema::dropIfExists('favorites');
+        Schema::dropIfExists('activities');
     }
 }

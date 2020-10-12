@@ -17,7 +17,7 @@
     <section class="section">
         <div class="container">
             @if(auth()->check())
-                <form class="p-1" action="{{ route('replies.store', ['channel' => $thread->channel->slug, 'thread' => $thread->id]) }}" method="post">
+                <form id="comment-form" class="p-1" action="{{ route('replies.store', ['channel' => $thread->channel->slug, 'thread' => $thread->id]) }}" method="post">
                     {{ csrf_field() }}
                     <article class="media">
                             <figure class="media-left">

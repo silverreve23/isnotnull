@@ -6,13 +6,15 @@
         </div>
     </div>
     <section class="section">
-        @foreach($threads as $thread)
-            @include('threads.thread')
-        @endforeach
-    </section>
-    <section class="section">
         <div class="container">
-            {{ $threads->links() }}
+            @foreach($activities as $date => $activity)
+                <p class="title is-4">{{ $date }}</p>
+                @foreach($activity as $record)
+                    @if(view()->exists("profiles.activities.{$record->type}"))
+                        @include("profiles.activities.{$record->type}", ['activity' => $record])
+                    @endif
+                @endforeach
+            @endforeach
         </div>
     </section>
 </x-app-layout>

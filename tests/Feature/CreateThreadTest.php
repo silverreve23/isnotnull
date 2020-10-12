@@ -9,6 +9,7 @@ use Illuminate\Validation\ValidationException;
 use Tests\TestCase;
 use App\Models\Thread;
 use App\Models\Channel;
+use App\Models\Activity;
 use App\Models\Reply;
 use App\Models\User;
 
@@ -80,7 +81,7 @@ class CreateThreadTest extends TestCase {
             ->assertSessionHasErrors('channel_id');
     }
 
-    public function test_unauthorized_user_may_not_delete_a_thread(){
+    public function test_unauthorized_user_can_not_delete_a_thread(){
         $this->delete($this->thread->path())->assertRedirect('/login');
 
         $this->be($this->user);
@@ -88,7 +89,7 @@ class CreateThreadTest extends TestCase {
         $this->json('delete', $this->thread->path())->assertStatus(403);
     }
 
-    public function test_authorized_user_may_delete_a_thread(){
+    public function test_authorized_user_can_delete_a_thread(){
         $this->be($this->user);
 
         $thread = Thread::factory()->create(['user_id' => $this->user->id]);
@@ -98,5 +99,13 @@ class CreateThreadTest extends TestCase {
 
         $this->assertDatabaseMissing('threads', ['id' => $thread->id]);
         $this->assertDatabaseMissing('replies', ['id' => $reply->id]);
+        $this->assertDatabaseMissing('activities', [
+            'subject_id' => $thread->id,
+            'subject_type' => get_class($thread),
+        ]);
+        $this->assertDatabaseMissing('activities', [
+            'subject_id' => $reply->id,
+            'subject_type' => get_class($reply),
+        ]);
     }
 }

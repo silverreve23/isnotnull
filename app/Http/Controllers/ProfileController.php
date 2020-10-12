@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Activity;
 
 class ProfileController extends Controller {
     public function __construct(){
@@ -10,8 +11,8 @@ class ProfileController extends Controller {
     }
 
     public function show(User $profile){
-        $threads = $profile->threads()->paginate(10);
+        $activities = Activity::feed($profile);
 
-        return view('profiles.show', compact('profile', 'threads'));
+        return view('profiles.show', compact('profile', 'activities'));
     }
 }

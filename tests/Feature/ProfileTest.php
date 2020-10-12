@@ -8,6 +8,7 @@ use Illuminate\Auth\AuthenticationException;
 use Tests\TestCase;
 use App\Models\User;
 use App\Models\Thread;
+use App\Models\Activity;
 
 class ProfileTest extends TestCase {
     use DatabaseMigrations, RefreshDatabase;
@@ -15,7 +16,7 @@ class ProfileTest extends TestCase {
     public function setUp(): void {
         parent::setUp();
 
-        $this->thread = Thread::factory()->create();
+        // $this->thread = Thread::factory()->create();
         $this->user = User::factory()->create();
         $this->withoutExceptionHandling();
     }
@@ -27,6 +28,8 @@ class ProfileTest extends TestCase {
     }
 
     public function test_profiles_display_all_threads_created_by_the_associated_user(){
+        $this->be($this->user);
+
         $thread = Thread::factory()->create(['user_id' => $this->user->id]);
 
         $response = $this->get('/profiles/'.$this->user->name);

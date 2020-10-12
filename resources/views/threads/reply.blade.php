@@ -1,4 +1,4 @@
-<div class="card">
+<div id="reply-{{ $reply->id }}" class="card">
   <div class="card-content">
     <div class="media">
       <div class="media-left">
@@ -9,7 +9,7 @@
       <div class="media-content">
         <p class="title is-6">
             <a href="{{ route('profiles.show', ['profile' => $reply->owner->name]) }}">
-                <sometag>@</sometag>{{ $reply->owner->name }}
+                <sometag v-pre>@</sometag>{{ $reply->owner->name }}
             </a>
         </p>
         <p class="subtitle is-6">

@@ -10,6 +10,7 @@ use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
 use App\Models\Thread;
+use App\Models\Activity;
 
 class User extends Authenticatable {
     use HasApiTokens;
@@ -45,5 +46,9 @@ class User extends Authenticatable {
 
     public function threads(){
         return $this->hasMany(Thread::class)->latest();
+    }
+
+    public function activity(){
+        return $this->hasMany(Activity::class)->latest();
     }
 }

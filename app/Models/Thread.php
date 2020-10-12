@@ -5,9 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Channel;
+use App\Models\RecordActivity;
 
 class Thread extends Model {
-    use HasFactory;
+    use HasFactory, RecordActivity;
 
     protected $guarded = [];
     protected $with = ['channel', 'creator'];
@@ -20,7 +21,7 @@ class Thread extends Model {
         });
 
         static::deleting(function($thread){
-            $thread->replies()->delete();
+            $thread->replies->each->delete();
         });
     }
 

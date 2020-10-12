@@ -12,7 +12,7 @@
         </p>
         <p class="subtitle is-6">
             <a href="{{ route('profiles.show', ['profile' => $thread->creator->name]) }}">
-                <sometag>@</sometag>{{ $thread->creator->name }}
+                <sometag v-pre>@</sometag>{{ $thread->creator->name }}
             </a>
             <span>|</span>
             <a href="{{ route('threads.index', ['channel' => $thread->channel->slug]) }}">
@@ -35,7 +35,7 @@
     </div>
     <div class="content">
         <p>{{ $thread->body }}</p>
-        <p>{{ Str::plural('comment', $thread->replies_count) }}: {{ $thread->replies_count }}</p>
+        <p><a href="#comment-form">{{ Str::plural('Comment', $thread->replies_count) }}</a> {{ $thread->replies_count }}</p>
     </div>
   </div>
 </div>

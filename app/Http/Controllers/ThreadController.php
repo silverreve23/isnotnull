@@ -39,7 +39,9 @@ class ThreadController extends Controller {
             'user_id' => auth()->user()->id,
         ));
 
-        return redirect($thread->path());
+        return
+            redirect($thread->path())
+            ->with('flash', 'Your thread has been published!');
     }
 
     public function show($channelSlug, Thread $thread){
