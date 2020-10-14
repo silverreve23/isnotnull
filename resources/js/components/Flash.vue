@@ -38,5 +38,6 @@
         bottom: 5px;
         right: 5px;
         width: 310px;
+        border: 1px solid #c1c1c1;
     }
 </style>

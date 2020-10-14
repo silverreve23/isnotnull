@@ -14,6 +14,7 @@ class Reply extends Model {
 
     protected $guarded = [];
     protected $with = ['favorites', 'owner'];
+    protected $appends = ['favoritesCount', 'isFavorited'];
 
     public function path(){
         return "{$this->thread->path()}#reply-{$this->id}";

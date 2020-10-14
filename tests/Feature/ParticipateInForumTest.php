@@ -45,4 +45,48 @@ class ParticipateInForumTest extends TestCase {
         $this->post($this->thread->path().'/replies', $reply->toArray())
             ->assertSessionHasErrors('body');
     }
+
+    public function test_an_unauthenticated_user_may_not_delete_any_reply(){
+        $reply = Reply::factory()->create();
+
+        $this->delete('/replies/'.$reply->id)->assertRedirect('login');
+
+        $this->be($this->user);
+        $this->delete('/replies/'.$reply->id)->assertStatus(403);
+    }
+
+    public function test_an_authenticated_user_may_not_delete_any_reply(){
+        $this->be($this->user);
+
+        $reply = Reply::factory()->create(['user_id' => $this->user->id]);
+
+        $this->delete('/replies/'.$reply->id)->assertStatus(302);
+
+        $this->assertDatabaseMissing('replies', ['id' => $reply->id]);
+    }
+
+    public function test_an_authenticated_user_may_update_reply(){
+        $this->be($this->user);
+
+        $reply = Reply::factory()->create(['user_id' => $this->user->id]);
+        $body = "Updated reply!";
+
+        $this->patch('/replies/'.$reply->id, ['body' => $body])->assertStatus(200);
+
+        $this->assertDatabaseHas('replies', [
+            'id' => $reply->id,
+            'body' => $body
+        ]);
+    }
+
+    public function test_an_unauthenticated_user_may_not_update_reply(){
+        $reply = Reply::factory()->create();
+
+        $this->patch('/replies/'.$reply->id, ['body' => 'Some up!'])->assertRedirect('login');
+
+        $this->assertDatabaseHas('replies', [
+            'id' => $reply->id,
+            'body' => $reply->body
+        ]);
+    }
 }

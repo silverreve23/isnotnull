@@ -11,9 +11,15 @@ class FavoriteController extends Controller {
         $this->middleware('auth');
     }
 
-    public function store(Reply $reply, Request $request){
+    public function store(Reply $reply){
         $reply->favorite();
 
         return back()->with('flash', 'Reply has been favorited!');
+    }
+
+    public function destroy(Reply $reply){
+        $reply->unfavorite();
+
+        return back()->with('flash', 'Reply has been unfavorited!');
     }
 }
