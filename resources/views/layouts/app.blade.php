@@ -59,5 +59,12 @@
                 }
             });
         </script>
+        <script type="text/javascript">
+            window.App = {!! json_encode([
+                'csrfToken' => csrf_token(),
+                'user' => auth()->user(),
+                'signedIn' => auth()->check(),
+            ]) !!}
+        </script>
     </body>
 </html>

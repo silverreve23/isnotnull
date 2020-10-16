@@ -1,7 +1,7 @@
 <template>
     <button @click="toggle" class="button" :class="classes">
         <span class="icon"><i class="fas fa-heart"></i></span>
-        <span v-text="reply.count"></span>
+        <span v-text="count"></span>
     </button>
 </template>
 
@@ -24,7 +24,7 @@
         },
         methods: {
             toggle(){
-                this.active ? this.favorite() : this.unfavorite();
+                !this.active ? this.favorite() : this.unfavorite();
             },
             favorite(){
                 axios.post(this.endpoint);

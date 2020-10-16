@@ -7,14 +7,16 @@
     </div>
     <section class="section">
         <div class="container">
-            @foreach($activities as $date => $activity)
+            @forelse($activities as $date => $activity)
                 <p class="title is-4">{{ $date }}</p>
                 @foreach($activity as $record)
                     @if(view()->exists("profiles.activities.{$record->type}"))
                         @include("profiles.activities.{$record->type}", ['activity' => $record])
                     @endif
                 @endforeach
-            @endforeach
+            @empty
+                <p>There are no activities yet.</p>
+            @endforelse
         </div>
     </section>
 </x-app-layout>
