@@ -1,7 +1,7 @@
-@import 'tailwindcss/base';
-@import 'tailwindcss/components';
-@import 'tailwindcss/utilities';
-
 .v-cloak {
     display: none;
+}
+
+.section {
+    padding: 2rem 1.5rem;
 }

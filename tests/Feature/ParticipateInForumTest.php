@@ -34,7 +34,8 @@ class ParticipateInForumTest extends TestCase {
 
         $this->post($this->thread->path().'/replies', $reply->toArray());
 
-        $this->get($this->thread->path())->assertSee($reply->body);
+        $this->assertDatabaseHas('replies', ['body' => $reply->body]);
+        $this->assertEquals(1, $this->thread->fresh()->replies_count);
     }
 
     public function test_a_reply_requires_a_body(){
@@ -55,7 +56,7 @@ class ParticipateInForumTest extends TestCase {
         $this->delete('/replies/'.$reply->id)->assertStatus(403);
     }
 
-    public function test_an_authenticated_user_may_not_delete_any_reply(){
+    public function test_an_authenticated_user_can_delete_replies(){
         $this->be($this->user);
 
         $reply = Reply::factory()->create(['user_id' => $this->user->id]);
@@ -63,6 +64,7 @@ class ParticipateInForumTest extends TestCase {
         $this->delete('/replies/'.$reply->id)->assertStatus(302);
 
         $this->assertDatabaseMissing('replies', ['id' => $reply->id]);
+        $this->assertEquals(0, $reply->thread->fresh()->replies_count);
     }
 
     public function test_an_authenticated_user_may_update_reply(){

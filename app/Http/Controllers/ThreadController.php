@@ -39,15 +39,12 @@ class ThreadController extends Controller {
             'user_id' => auth()->user()->id,
         ));
 
-        return
-            redirect($thread->path())
+        return redirect($thread->path())
             ->with('flash', 'Your thread has been published!');
     }
 
     public function show($channelSlug, Thread $thread){
-        $replies = $thread->replies()->paginate(10);
-
-        return view('threads.show', compact('thread', 'replies'));
+        return view('threads.show', compact('thread'));
     }
 
     public function edit(Thread $thread){

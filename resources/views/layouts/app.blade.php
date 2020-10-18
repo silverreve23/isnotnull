@@ -13,8 +13,8 @@
 
         <!-- Styles -->
         <link rel="stylesheet" href="{{ asset('css/bulma.min.css') }}">
-        <link rel="stylesheet" href="/css/common.css">
-        <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+        <link rel="stylesheet" href="{{ asset('/css/common.css') }}">
+        <link rel="stylesheet" href="{{ mix('css/app.css') }}">
 
         @livewireStyles
 
@@ -27,7 +27,6 @@
             @include('layouts.navbar')
             <section class="hero">
                 <figure class="image">
-                    {{-- <img src="/header.jpeg"> --}}
                     <img src="https://picsum.photos/1200/200" alt="is not null description">
                 </figure>
             </section>

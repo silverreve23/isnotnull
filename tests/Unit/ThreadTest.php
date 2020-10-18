@@ -30,7 +30,7 @@ class ThreadTest extends TestCase {
     }
 
     public function test_a_thread_can_add_a_reply(){
-        $this->thread->addReplay(array(
+        $this->thread->addReply(array(
             'body' => 'Body',
             'user_id' => $this->user->id,
         ));

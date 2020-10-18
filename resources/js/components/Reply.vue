@@ -14,7 +14,7 @@
                 </a>
             </p>
             <p class="subtitle is-6">
-                <small>{{ data.created_at }}</small>
+                <small v-text="ago"></small>
             </p>
           </div>
           <div class="media-right">
@@ -41,6 +41,7 @@
 </template>
 <script>
     import Favorite from './Favorite';
+    import moment from 'moment';
 
     export default {
         props: ['data'],
@@ -53,6 +54,9 @@
             };
         },
         computed: {
+            ago(){
+                return moment(this.data.created_at).fromNow();
+            },
             signedIn(){
                 return window.App.signedIn;
             },
@@ -79,12 +83,3 @@
         }
     }
 </script>
-
-<style>
-    .notification {
-        position: fixed;
-        bottom: 5px;
-        right: 5px;
-        width: 310px;
-    }
-</style>

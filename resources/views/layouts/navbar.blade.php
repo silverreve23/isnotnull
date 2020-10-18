@@ -25,6 +25,9 @@
                     <a class="navbar-item" href="{{ route('threads.index', ['channel' => false, 'popular' => true]) }}">
                         Popular threads
                     </a>
+                    <a class="navbar-item" href="{{ route('threads.index', ['channel' => false, 'unanswered' => true]) }}">
+                        Unanswered threads
+                    </a>
                     <hr class="navbar-divider">
                     <a class="navbar-item">Report an issue</a>
                 </div>

@@ -16,7 +16,7 @@ class ProfileTest extends TestCase {
     public function setUp(): void {
         parent::setUp();
 
-        // $this->thread = Thread::factory()->create();
+        $this->thread = Thread::factory()->create();
         $this->user = User::factory()->create();
         $this->withoutExceptionHandling();
     }

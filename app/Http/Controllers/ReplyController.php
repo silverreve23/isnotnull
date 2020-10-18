@@ -8,7 +8,11 @@ use App\Models\Thread;
 
 class ReplyController extends Controller {
     public function __construct(){
-        $this->middleware('auth');
+        $this->middleware('auth', ['except' => 'index']);
+    }
+
+    public function index($channelSlug, Thread $thread){
+        return $thread->replies()->paginate(10);
     }
 
     public function store($channelSlug, Thread $thread, Request $request){
@@ -16,10 +20,14 @@ class ReplyController extends Controller {
             'body' => 'required',
         ));
 
-        $thread->addReplay(array(
+        $reply = $thread->addReply(array(
             'body' => request('body'),
             'user_id' => auth()->user()->id,
         ));
+
+        if(request()->expectsJson()){
+            return $reply->load('owner');
+        }
 
         return back()->with('flash', 'Your reply has been left!');;
     }
