@@ -26,11 +26,12 @@
               <form action="{{ $thread->path() }}" method="post">
                   {{ csrf_field() }}
                   {{ method_field('delete') }}
-                  <button class="button is-small" {{ false ? 'disabled' : '' }}>
+                  <button class="button is-small">
                       Delete
                   </button>
               </form>
           @endcan
+          <subscribe-button :active="{{ json_encode($thread->isSubscribedTo) }}"></subscribe-button>
       </div>
     </div>
     <div class="content">

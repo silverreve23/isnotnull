@@ -45,6 +45,12 @@ class User extends Authenticatable {
         return 'name';
     }
 
+    public function path(){
+        $params = ['profile' => $this->name];
+
+        return route('profiles.show', $params, false);
+    }
+
     public function threads(){
         return $this->hasMany(Thread::class)->latest();
     }

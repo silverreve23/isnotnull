@@ -1,4 +1,4 @@
-<nav class="navbar" role="navigation" aria-label="main navigation">
+<nav class="navbar" role="navigation" aria-label="dropdown navigation">
     <div class="navbar-brand">
         <a class="navbar-item" href="/">
             <img src="/logo.svg" alt="IS NOT NULL">
@@ -9,7 +9,7 @@
             <span aria-hidden="true"></span>
         </a>
     </div>
-    <div id="navbarBasicExample" class="navbar-menu">
+    <div class="navbar-menu">
         <div class="navbar-start">
             <div class="navbar-item has-dropdown is-hoverable">
                 <a class="navbar-link is-arrowless">Browse</a>
@@ -44,6 +44,7 @@
                 </div>
             </div>
         </div>
+
         <div class="navbar-end">
             <div class="navbar-item">
                 <div class="field">
@@ -52,33 +53,34 @@
                     </div>
                 </div>
             </div>
-                @if(auth()->check())
-                    <div class="navbar-item has-dropdown is-hoverable">
-                        <a class="navbar-link is-arrowless">{{ auth()->user()->name }}</a>
-                        <div class="navbar-dropdown">
-                            <a class="navbar-item" href="{{ route('profiles.show', auth()->user()->name) }}">My profile</a>
-                            <a class="navbar-item" href="{{ route('threads.index', ['channel' => $channel->slug]) }}">
-                                <form class="" action="/logout" method="post">
-                                    {{ csrf_field() }}
-                                    <div class="field">
-                                        <div class="control">
-                                            <button type="submit">Log out</button>
-                                        </div>
+            <user-notifications></user-notifications>
+            @if(auth()->check())
+                <div class="navbar-item has-dropdown is-hoverable">
+                    <a class="navbar-link is-arrowless">{{ auth()->user()->name }}</a>
+                    <div class="navbar-dropdown">
+                        <a class="navbar-item" href="{{ route('profiles.show', auth()->user()->name) }}">My profile</a>
+                        <a class="navbar-item" href="{{ route('threads.index', ['channel' => $channel->slug]) }}">
+                            <form class="" action="/logout" method="post">
+                                {{ csrf_field() }}
+                                <div class="field">
+                                    <div class="control">
+                                        <button type="submit">Log out</button>
                                     </div>
-                                </form>
-                            </a>
-                        </div>
+                                </div>
+                            </form>
+                        </a>
                     </div>
-                @else
-                    <div class="navbar-item">
-                        <div class="buttons">
-                            <a href="/register" class="button is-primary">
-                                <strong>Sign up</strong>
-                            </a>
-                            <a href="/login" class="button is-light">Log in</a>
-                        </div>
+                </div>
+            @else
+                <div class="navbar-item">
+                    <div class="buttons">
+                        <a href="/register" class="button is-primary">
+                            <strong>Sign up</strong>
+                        </a>
+                        <a href="/login" class="button is-light">Log in</a>
                     </div>
-                @endif
+                </div>
+            @endif
         </div>
     </div>
 </nav>
